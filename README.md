@@ -64,7 +64,7 @@ The following controller file and action are parsed. As you can see, the router 
 ### View
 
 ### Controller
-A controller file has the following structure. Replace `BaseController` with any controller name in the `controller/_abstract` directory.
+A controller file has the following structure. Replace `BaseController` with any controller name in the `controller/_abstract` directory. This directory is automatically included during the bootstrap in `app.js`, so there is no need to explicitly require it in the controller.
 ```javascript
 module.exports = BaseController.extend({
     indexAction: function(next) {
