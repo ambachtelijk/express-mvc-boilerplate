@@ -1,4 +1,3 @@
-var Php = require('./php'); 
 var Fs = require('fs');
 var Path = require('path');
 var Favicon = require('serve-favicon');
@@ -17,15 +16,29 @@ var Express = require('express');
     this.app = Express();
 }());
 
+// Make the base directory of this app globally available
 app.basedir = __dirname;
 app.config = {};
 
 // Load all config files
-Fs.readdirSync('./config').forEach(function(filename) {
+Fs.readdirSync(Path.join(app.basedir, 'config')).forEach(function(filename) {
     if(~filename.indexOf('.json')) {
-        app.config[filename.slice(0, filename.indexOf('.json'))] = require('./config/' + filename);
+        app.config[filename.slice(0, filename.indexOf('.json'))] = require(Path.join(app.basedir, 'config', filename));
     }
 });
+
+(function(){
+    // Add additional JS features
+    require(Path.join(app.basedir, 'php'));
+    
+    // Preload all abstract controllers
+    Fs.readdirSync(Path.join(app.basedir, app.config.path.controller.abstract)).forEach(function(filename) {
+        if(~filename.indexOf('.js')) {
+            this[filename.slice(0, filename.indexOf('.js'))] = require(Path.join(app.basedir, app.config.path.controller.abstract, filename));
+        }
+    });
+}());
+
 
 // Connect to database
 if(app.config.db) {

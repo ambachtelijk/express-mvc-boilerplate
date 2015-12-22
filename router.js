@@ -9,8 +9,8 @@ var Router = Express.Router();
  * Should be in any framework by default
  */
 module.exports = Router.all('/*', function (req, res, next) {
-    var basedir = app.config.path.controller.basedir || './controller';
-    var suffix = app.config.path.controller.suffix || 'Controller.js';
+    var basedir = app.config.path.controller.basedir;
+    var suffix = app.config.path.controller.suffix;
     
     // Protection against URL injection by only allowing certain characters
     var route = path = req.path.replace(/[^\w-\/]/g,'').toLowerCase().trim2('/');
@@ -37,7 +37,7 @@ module.exports = Router.all('/*', function (req, res, next) {
     
     // Set default values for directory and controller
     req.directory = req.directory || '';
-    req.controller = req.controller || app.config.path.controller.name || 'index';
+    req.controller = req.controller || app.config.path.controller.name;
     
     // Get the remaining path: first element is the action
     req.action = path.length !== route.length 
@@ -79,7 +79,7 @@ module.exports = Router.all('/*', function (req, res, next) {
     
     var controller = new Controller({ req: req, res: res, next: next });
 
-    if(!(controller instanceof require(Path.join(app.basedir, app.config.path.controller.basedir, '_abstract', 'Base' + suffix)))
+    if(!(controller instanceof BaseController)
     ) {
         throw new HttpError(500, req.controller.CamelCase() + suffix + ' does not inherit from Base' + suffix);
     }
