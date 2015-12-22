@@ -1,5 +1,5 @@
-# 261claim.eu
-261claim.eu is a webbased app built on ExpressJS.
+# Express MVC boilerplate app
+This is a boilerplate application that provides a ready-to-use implementation of the MEAN (MongoDB/MySQL, Express, Angular, Node) stack according to the MVC (model-view-controller) design pattern. It includes a standard controllers for a web-based interface and RESTful API interface.
 
 ### Table of contents
 1. [Dependencies](#dependencies)
@@ -12,7 +12,7 @@ Make sure the following dependencies have been installed on the target machine a
 
 * Node.js
 * NPM (node package manager)
-* MySQL server
+* Database server (e.g. MongoDB or MySQL)
 * Nodemon (optional)
 
 ## Installation
@@ -64,20 +64,12 @@ The following controller file and action are parsed. As you can see, the router 
 ### View
 
 ### Controller
-A base controller file has the following structure.
+A controller file has the following structure. Replace `BaseController` with any controller name in the `controller/_abstract` directory.
 ```javascript
-/**
- * Route: http://localhost:3000/foo
- * Filename: ./controllers/FooController.js
- */
-
-var merge = require('merge');
-
-// Replace BaseController with any other abstract controller in the _abstract folder
-var BaseController = require('./_abstract/BaseController');
-
-module.exports = merge(Object.create(BaseController), {
-    indexAction: function() {}
+module.exports = BaseController.extend({
+    indexAction: function(next) {
+        next();
+    }
 });
 ```
 
