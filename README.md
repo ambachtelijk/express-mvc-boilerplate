@@ -2,7 +2,7 @@
 This is a boilerplate application that provides a ready-to-use implementation of the MEAN (MongoDB/MySQL, Express, Angular, Node) stack according to the MVC (model-view-controller) design pattern. It includes a standard controllers for a web-based interface and for a RESTful API interface.
 
 ### Important Notice
-This app has been built as individual assignment for the course Web Technology (2ID60) at Eindhoven University of Technology. It is intended as a *working example* to give you a kick start when developing your own application. You can freely use this code, modify and redistribute it to your own needs. **Be aware that delivering this app without your own models, views and controllers may result in plagiarism litigations**.
+This app has been built as part of my individual assignment for the course Web Technology (2ID60) at Eindhoven University of Technology. It is intended as a *working example* to give you a kick start when developing your own application. You can freely use this code, modify and redistribute it to your own needs. **Be aware that delivering this app without your own models, views and controllers may result in plagiarism litigations**.
 
 ### Table of contents
 1. [Dependencies](#dependencies)
