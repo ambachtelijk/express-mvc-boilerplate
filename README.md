@@ -1,5 +1,5 @@
 # Express MVC boilerplate app
-This is a boilerplate application that provides a ready-to-use implementation of the MEAN (MongoDB/MySQL, Express, Angular, Node) stack according to the MVC (model-view-controller) design pattern. It includes a standard controllers for a web-based interface and RESTful API interface.
+This is a boilerplate application that provides a ready-to-use implementation of the MEAN (MongoDB/MySQL, Express, Angular, Node) stack according to the MVC (model-view-controller) design pattern. It includes a standard controllers for a web-based interface and for a RESTful API interface.
 
 ### Table of contents
 1. [Dependencies](#dependencies)
