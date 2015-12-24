@@ -9,12 +9,16 @@ var Router = Express.Router();
  * Should be in any framework by default
  */
 module.exports = Router.all('/*', function (req, res, next) {
+    
     var basedir = app.config.path.controller.basedir;
     var suffix = app.config.path.controller.suffix;
     
     // Protection against URL injection by only allowing certain characters
     var route = path = req.path.replace(/[^\w-\/]/g,'').toLowerCase().trim2('/');
     
+    /**
+     * @todo add caching for loading controllers
+     */
     while(path !== "") {
         // If there is no / in the remaining path, directory will be empty and controller will be path
         if(path.indexOf('/') === -1) {
@@ -50,6 +54,23 @@ module.exports = Router.all('/*', function (req, res, next) {
     // Take the original unfiltered request and cut off the URI elements that belong to the route
     req.params = req.path.trim2('/').split('/').splice(req.route.split('/').length);
     
+    var filename = Path.join(app.basedir, basedir, req.directory, req.controller.CamelCase() + suffix);
+    
+    // Try to locate the file, otherwise it may be a request intended to the public folder
+    try {
+        Fs.statSync(filename);
+    } catch(error) {
+        return next(new HttpError(404));
+    }
+    
+    // Load the file as code
+    try {
+        var Controller = require(filename);
+    } catch(error) {
+        console.log(error); // These are errors that we are interested in developer mode
+        return next(new HttpError(500, 'JavaScript error in ' + Path.join(req.directory, req.controller.CamelCase() + suffix)));
+    }
+    
     // Find the allowed HTTP verbs for this request
     var verbs = [];
     if(app.config.verb && app.config.verb[req.route]) {
@@ -64,31 +85,24 @@ module.exports = Router.all('/*', function (req, res, next) {
     if(verbs.indexOf(req.method) === -1) {
         throw new HttpError(405);
     }
-    
-    // Try to include the Controller
-    try {
-        var Controller = require(Path.join(app.basedir, basedir, req.directory, req.controller.CamelCase() + suffix));
-    } catch(error) {
-        console.log(error); // Sometimes we're dealing with a syntax error, but that is none of the front end's business
-        throw new HttpError(404, Path.join(req.directory, req.controller.CamelCase() + suffix) + ' Not Found');
-    }
-    
+
     if(typeof Controller !== 'function') {
-        throw new HttpError(500, 'No valid controller found in ' + Path.join(req.directory, req.controller.CamelCase() + suffix));
+        return next(new HttpError(500, 'No valid controller found in ' + Path.join(req.directory, req.controller.CamelCase() + suffix)));
     }
-    
-    var controller = new Controller({ req: req, res: res, next: next });
 
-    if(!(controller instanceof BaseController)
-    ) {
-        throw new HttpError(500, req.controller.CamelCase() + suffix + ' does not inherit from Base' + suffix);
+    // Bind the arguments to this object
+    // Only give methods as arguments, properties will cause severe scope issues
+    // http://www.2ality.com/2012/08/property-definition-assignment.html
+    var controller = new Controller(req, res);
+    
+    if(!(controller instanceof BaseController)) {
+        return next(new HttpError(500, req.controller.CamelCase() + suffix + ' does not inherit from Base' + suffix));
     }
     
-    // Bind the arguments to this object; typically action, req, res and next
     if(typeof controller[req.action.camelCase() + 'Action'] !== 'function') {
-        throw new HttpError(404, req.action.camelCase() + 'Action Not Found');
+        return next(new HttpError(404, req.action.camelCase() + 'Action Not Found'));
     }
-
+    
     // Dispatch the route
-    controller.run(req.action);
+    controller.run(req.action, next);
 });

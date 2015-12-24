@@ -1,4 +1,5 @@
-module.exports = BaseController.extend({
+"use strict"
+module.exports = WebController.extend({
     indexAction: function(next) {
         next();
     }

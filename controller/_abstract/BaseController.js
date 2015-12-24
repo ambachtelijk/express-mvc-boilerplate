@@ -1,29 +1,34 @@
+"use strict"
 var HttpError = require('http-errors');
 var Promise = require("bluebird");
-var merge = require('merge');
 
 module.exports = Class.extend({
     config: {},
     before: function(next) { next(); },
-    after: function(next) { next(); this.res.send('Ok!'); },
-    init: function(globals) {
-        merge.recursive(this.config, app.config.web);
-        merge(this, globals);
+    after: function(next) { next(); },
+    init: function(req, res) {
+        this.req = req;
+        this.res = res;
     },
-    run: function(action) {
-        var self = this;
-        Promise.try(function(){
+    run: function(action, next) {
+        Promise.try(function() {
             return new Promise(function(next) {
-                self.before(next);
-            });
-        }).then(function(){
+                this.before(next);
+            }.bind(this));
+        }.bind(this)).then(function() {
+            return new Promise(function(next, error) {
+                return this[action.camelCase() + 'Action'].apply(this, [next].concat(this.req.params));
+            }.bind(this));
+        }.bind(this)).then(function() {
             return new Promise(function(next) {
-                self[action.camelCase() + 'Action'].apply(self, [].concat(next, self.req.params));
-            });
-        }).then(function(){
-            return new Promise(function(next) {
-                self.after(next);
-            });
-        });
+                return this.after(next);
+            }.bind(this));
+        }.bind(this)).then(function() {
+            next();
+        }).catch(function(error) {
+            console.log(error);
+            // Delegate if an error handler has been defined
+            this.errorHandler ? this.errorHandler(next, error) : next(error);
+        }.bind(this));
     }
-})
+});

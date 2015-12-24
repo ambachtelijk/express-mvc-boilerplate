@@ -1,3 +1,4 @@
+"use strict"
 var Fs = require('fs');
 var Path = require('path');
 var Favicon = require('serve-favicon');
@@ -7,14 +8,11 @@ var Sequelize = require('sequelize');
 var CookieParser = require('cookie-parser');
 var BodyParser = require('body-parser');
 
-
 // Load Express.js and create an instance of the app
 var Express = require('express');
 
-// Set app as global variable
-(function(){
-    this.app = Express();
-}());
+// App app to the global scope
+GLOBAL.app = Express();
 
 // Make the base directory of this app globally available
 app.basedir = __dirname;
@@ -22,31 +20,39 @@ app.config = {};
 
 // Load all config files
 Fs.readdirSync(Path.join(app.basedir, 'config')).forEach(function(filename) {
-    if(~filename.indexOf('.json')) {
+    if(~filename.indexOf('.json') && !~filename.indexOf('.sample')) {
         app.config[filename.slice(0, filename.indexOf('.json'))] = require(Path.join(app.basedir, 'config', filename));
     }
 });
 
-(function(){
-    // Add additional JS features
-    require(Path.join(app.basedir, 'php'));
-    
-    // Preload all abstract controllers
-    Fs.readdirSync(Path.join(app.basedir, app.config.path.controller.abstract)).forEach(function(filename) {
-        if(~filename.indexOf('.js')) {
-            this[filename.slice(0, filename.indexOf('.js'))] = require(Path.join(app.basedir, app.config.path.controller.abstract, filename));
-        }
-    });
-}());
+// Add additional JS features
+require(Path.join(app.basedir, 'php'));
 
+// Preload all abstract controllers
+// Each controller has to be loaded in the right order, to prevent fatal exceptions
+// because deratives try to extend a class that has not yet been included
+app.config.path.controller.abstract.order.forEach(function(level) {
+    let suffix = app.config.path.controller.suffix;
+
+    level.forEach(function(controller) {
+        let filename = Path.join(
+            app.basedir, 
+            app.config.path.controller.abstract.location, controller.CamelCase() + suffix
+        );
+
+        // Add controller to the global scope
+        GLOBAL[controller.CamelCase() + suffix.slice(0, suffix.indexOf('.js'))] = require(filename);
+    });
+});
 
 // Connect to database
 if(app.config.db) {
-    var db = new Sequelize(app.config.db.database, app.config.db.username, app.config.db.password, app.config.db.options);
-    app.use(function(req, res, next) {
-        req.db = db;
-        next();
-    });
+    app.db = new Sequelize(
+        app.config.db.database, 
+        app.config.db.username, 
+        app.config.db.password, 
+        app.config.db.options
+    );
 }
 
 // Set up view renderer
