@@ -1,5 +1,8 @@
 # Express MVC boilerplate app
-This is a boilerplate application that provides a ready-to-use implementation of the MEAN (MongoDB/MySQL, Express, Angular, Node) stack according to the MVC (model-view-controller) design pattern. It includes a standard controllers for a web-based interface and RESTful API interface.
+This is a boilerplate application that provides a ready-to-use implementation of the MEAN (MongoDB/MySQL, Express, Angular, Node) stack according to the MVC (model-view-controller) design pattern. It includes a standard controllers for a web-based interface and for a RESTful API interface.
+
+### Important Notice
+This app has been built as part of my participation in the course Web Technology (2ID60) at Eindhoven University of Technology. It is intended as a *working example* to give you a kick start when developing your own application. You can freely use this code, modify and redistribute it to your own needs. **Be aware that delivering this app without your own models, views and controllers may result in plagiarism litigations**.
 
 ### Table of contents
 1. [Dependencies](#dependencies)
@@ -64,7 +67,7 @@ The following controller file and action are parsed. As you can see, the router 
 ### View
 
 ### Controller
-A controller file has the following structure. Replace `BaseController` with any controller name in the `controller/_abstract` directory.
+A controller file has the following structure. Replace `BaseController` with any controller name in the `controller/_abstract` directory. This directory is automatically included during the bootstrap in `app.js`, so there is no need to explicitly require it in the controller.
 ```javascript
 module.exports = BaseController.extend({
     indexAction: function(next) {
