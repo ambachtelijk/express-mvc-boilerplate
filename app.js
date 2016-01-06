@@ -50,17 +50,15 @@ app.config.path.controller.abstract.order.forEach(function(level) {
 });
 
 // Connect to database
-if(app.config.db) {
-    app.db = new Sequelize(
-        process.env.DB_DATABASE, 
-        process.env.DB_USERNAME, 
-        process.env.DB_PASSWORD, 
-        {
-            "host": process.env.DB_HOST,
-            "dialect": "mysql"
-        }
-    );
-}
+app.db = new Sequelize(
+    process.env.DB_DATABASE, 
+    process.env.DB_USERNAME, 
+    process.env.DB_PASSWORD, 
+    {
+        "host": process.env.DB_HOST,
+        "dialect": "mysql"
+    }
+);
 
 // Set up view renderer
 app.locals.delimiters = '[[ ]]'; // Change Hogan delimiters to avoid conflicts with Angular
