@@ -18,6 +18,11 @@ GLOBAL.app = Express();
 app.basedir = __dirname;
 app.config = {};
 
+try {
+    require(Path.join(app.basedir, 'environment'));
+    console.log(process.env);
+} catch (e) {};
+
 // Load all config files
 Fs.readdirSync(Path.join(app.basedir, 'config')).forEach(function(filename) {
     if(~filename.indexOf('.json') && !~filename.indexOf('.sample')) {
@@ -48,10 +53,13 @@ app.config.path.controller.abstract.order.forEach(function(level) {
 // Connect to database
 if(app.config.db) {
     app.db = new Sequelize(
-        app.config.db.database, 
-        app.config.db.username, 
-        app.config.db.password, 
-        app.config.db.options
+        process.env.DB_DATABASE, 
+        process.env.DB_USERNAME, 
+        process.env.DB_PASSWORD, 
+        {
+            "host": process.env.DB_HOST,
+            "dialect": "mysql"
+        }
     );
 }
 

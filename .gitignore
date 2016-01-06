@@ -30,5 +30,5 @@ node_modules/*
 
 nbproject
 
-config/*
-!config/*.sample.json
+
+environment.js
