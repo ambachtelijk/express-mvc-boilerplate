@@ -13,6 +13,7 @@
     "hjs": "~0.0.6",
     "less-middleware": "1.0.x",
     "merge": "*",
+    "morgan": "*",
     "mysql": "^2.10.0",
     "sequelize": "^3.15.0",
     "serve-favicon": "~2.3.0"
