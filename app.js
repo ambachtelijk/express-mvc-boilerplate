@@ -20,7 +20,6 @@ app.config = {};
 
 try {
     require(Path.join(app.basedir, 'environment'));
-    console.log(process.env);
 } catch (e) {};
 
 // Load all config files
@@ -86,7 +85,7 @@ app.use(function(error, req, res, next) {
         .status(error.status || 500)
         .render('error', {
             message: error.message,
-            error: app.get('env') === 'development' ? error : {}
+            error: app.get('env') === 'development' ? error : error
         });
 });
 module.exports = app;
