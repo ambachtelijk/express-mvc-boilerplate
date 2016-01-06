@@ -45,19 +45,13 @@
                     <th class="text-nowrap hidden-xs">Alt. Name</th>
                     <th></th>
                 </tr>
-                <!--tr>
-                    <td style="width: 6em;"><input type="text" class="text-center form-control input-sm"/></td>
-                    <td style="width: 6em;"><input type="text" class="text-center form-control input-sm" /></td>
-                    <td style="width: 6em;"><input type="text" class="text-center form-control input-sm" /></td>
-                    <td colspan="2"><input type="text" class="form-control input-sm"/></th>
-                </tr-->
             </thead>
             <tbody>
                 <tr ng-repeat="country in countries">
                     <td class="text-right">{{country.id}}</td>
                     <td class="text-center">{{country.alpha2}}</td>
                     <td class="text-center">{{country.alpha3}}</td>
-                    <td class=" hidden-xs"><a href="#" ng-click="update()">{{country.name}}</a></td>
+                    <td class=" hidden-xs"><a href="#" ng-click="update(country)">{{country.name}}</a></td>
                     <td class=" hidden-xs">{{country.alt_name}}</td>
                     <td class="text-right text-nowrap">
                         <a href="#" ng-click="read(country)"><span class="fa fa-eye"></span></a>
