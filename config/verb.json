@@ -1,0 +1,8 @@
+{
+    "index": ["GET"],
+    "create": ["PUT", "POST"],
+    "read": ["GET"],
+    "update": ["PUT", "PATCH"],
+    "delete": ["DELETE"],
+    "_default": ["GET"]
+}
