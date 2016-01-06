@@ -24,11 +24,11 @@ build/Release
 
 # Dependency directory
 # https://www.npmjs.org/doc/misc/npm-faq.html#should-i-check-my-node_modules-folder-into-git
-node_modules
+node_modules/*
+!node_modules/hjs
+!node_modules/hjs/*
 
 nbproject
 
 config/*
 !config/*.sample.json
-
-!node_modules/hjs/*
