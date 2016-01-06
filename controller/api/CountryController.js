@@ -4,8 +4,9 @@ var Path = require('path');
 
 module.exports = ApiController.extend({
     searchAction: function(next, key, value) {
-        if(key !== 'all' && value === undefined) {
-            throw new HttpError(400, 'Request did not match expected formatting, e.g. country/search/name/Netherlands');
+        if(value === undefined) {
+            value = '';
+            //throw new HttpError(400, 'Request did not match expected formatting, e.g. country/search/name/Netherlands');
         }
         
         let Country = app.db.import(Path.join(app.basedir, app.config.path.model, 'Country'));

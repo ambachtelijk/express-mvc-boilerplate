@@ -2,8 +2,7 @@
 var app = angular.module('app', [ 'ui.bootstrap']);
 
 app.controller('CountryController', function($scope, $http, $uibModal) {
-
-    
+    $scope.search = '';
     $scope.create = function() {
         $uibModal.open({
             templateUrl: '/template/country/create.html',
@@ -53,12 +52,10 @@ app.controller('CountryController', function($scope, $http, $uibModal) {
     }
     
     $scope.refresh = function() {
-        $http.get('/api/country/search/all').success(function(response) {
+        $http.get('/api/country/search/name/' + $scope.search).success(function(response) {
             $scope.countries = response.data;
         });
     }
-    
-    $scope.refresh();
 });
 
 app.controller('CountryModalController', function($scope, $http, $uibModalInstance, country) {
