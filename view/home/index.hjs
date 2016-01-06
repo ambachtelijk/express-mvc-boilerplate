@@ -32,8 +32,8 @@
                     <th class="text-nowrap">ID</th>
                     <th class="text-center text-nowrap">Alpha 2</th>
                     <th class="text-center text-nowrap">Alpha 3</th>
-                    <th class="text-nowrap">Name</th>
-                    <th class="text-nowrap">Alt. Name</th>
+                    <th class="text-nowrap hidden-xs">Name</th>
+                    <th class="text-nowrap hidden-xs">Alt. Name</th>
                     <th></th>
                 </tr>
                 <!--tr>
@@ -44,20 +44,18 @@
                 </tr-->
             </thead>
             <tbody>
-                [[#countries]]
-                <tr>
-                    <td class="text-right">[[dataValues.id]]</td>
-                    <td class="text-center">[[dataValues.alpha2]]</td>
-                    <td class="text-center">[[dataValues.alpha3]]</td>
-                    <td><a href="#" ng-click="update()">[[dataValues.name]]</a></td>
-                    <td>[[dataValues.alt_name]]</td>
+                <tr ng-repeat="country in countries">
+                    <td class="text-right">{{country.id}}</td>
+                    <td class="text-center">{{country.alpha2}}</td>
+                    <td class="text-center">{{country.alpha3}}</td>
+                    <td class=" hidden-xs"><a href="#" ng-click="update()">{{country.name}}</a></td>
+                    <td class=" hidden-xs">{{country.alt_name}}</td>
                     <td class="text-right text-nowrap">
-                        <a href="#" ng-click="read()"><span class="fa fa-eye"></span></a>
-                        <a href="#" ng-click="update()"><span class="fa fa-pencil"></span></a>
-                        <a href="#" ng-click="delete()"><span class="fa fa-trash"></span></a>
+                        <a href="#" ng-click="read(country)"><span class="fa fa-eye"></span></a>
+                        <a href="#" ng-click="update(country)"><span class="fa fa-pencil"></span></a>
+                        <a href="#" ng-click="delete(country)"><span class="fa fa-trash"></span></a>
                     </td>
                 </tr>
-                [[/countries]]
             </tbody>
         </table>
     </div>

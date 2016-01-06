@@ -17,7 +17,7 @@ module.exports = BaseController.extend({
         this.res.json({
             status: error.status,
             message: error.message,
-            response: this.res.data
+            data: this.res.data
         });
         next();
     },
