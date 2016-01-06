@@ -6,9 +6,8 @@ var Path = require('path');
 module.exports = BaseController.extend({
     view: {
         file: '',
-        params: {
-            partials: {}
-        }
+        partials: {},
+        params: {}
     },
     before: function(next) {
         this.view.file = this.req.route;
@@ -19,24 +18,27 @@ module.exports = BaseController.extend({
             return true;
         }
 
-        var partials = {};
+        var params = this.view.params;
+        params.partials = {};
+        
         // Parse route for partials set not by config
-        for(var i in this.view.params.partials) {
-            partials[i] = Path.join(this.req.route, this.view.params.partials[i]);
+        for(var i in this.view.partials) {
+            params.partials[i] = Path.join(this.req.route, this.view.partials[i]);
         }
 
         // Merge partials with configuration partials
-        partials = merge(true, { _content: this.view.file }, this.config.partials, partials);
+        params.partials = merge(true, { _content: this.view.file }, this.config.partials, params.partials);
         // Test if the partials do exist to prevent hard-to-solve issues
-        for(var i in partials) {
+        for(var i in params.partials) {
             try {
-                require.resolve(Path.join(app.basedir, app.config.path.view, partials[i] + '.hjs'));
+                require.resolve(Path.join(app.basedir, app.config.path.view, params.partials[i] + '.hjs'));
             } catch(e) {
                 throw new HttpError(404, 'Partial ' + partials[i] + ' Not Found');
             }
         }
+        
         // Do the actial rendering
-        this.res.render(this.config.layout, merge(true, this.view.params, { partials: partials }));
+        this.res.render(this.config.layout, params);
         next();
     },
     init: function(req, res) {

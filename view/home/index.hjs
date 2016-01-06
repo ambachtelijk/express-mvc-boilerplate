@@ -1,0 +1,64 @@
+<div  style="background-color: rgb(255,252,248); margin-bottom: 1em;">
+    <div class="container">
+        <div class="row">
+            <div class="col" style="padding: 1em 2em;">
+        <h1>ISO 3166-1 Country Code Service</h1>
+        <p class="lead">
+            With this application, the list of ISO 3166-1 country data can be viewed and edited either via a web based user interface or via a RESTful web API.
+        </p>
+        <p>
+            In many applications it can be useful to link world data to the country it belongs to. 
+            However, many world data sources (like weather services, flight data, etc.) provide the associated country in a non-standardized format. By integrating a pivot tables that map the format of the data sources to these standardized codification, data sources can be more easily connected.
+        </p>
+        <p>
+            The database in this example contains all ISO 3166-1 country codes as published on <a href="https://en.wikipedia.org/wiki/ISO_3166-1">Wikipedia</a>. The data has been collected by filtering the relevant data with regular expressions.
+            Please review the <a href="https://github.com/ehmPlankje/express-mvc-boilerplate/blob/master/README.md#api" target="_blank">API documentation</a>, for directives on implementing the data service in your own application.
+        </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="panel panel-default table-responsive" ng-controller="CountryController">
+        <div class="panel-body">
+            <button class="btn btn-success" ng-click="create()">
+                <span class="fa fa-plus"></span>
+                Add country
+            </button>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th class="text-nowrap">ID</th>
+                    <th class="text-center text-nowrap">Alpha 2</th>
+                    <th class="text-center text-nowrap">Alpha 3</th>
+                    <th class="text-nowrap">Name</th>
+                    <th class="text-nowrap">Alt. Name</th>
+                    <th></th>
+                </tr>
+                <!--tr>
+                    <td style="width: 6em;"><input type="text" class="text-center form-control input-sm"/></td>
+                    <td style="width: 6em;"><input type="text" class="text-center form-control input-sm" /></td>
+                    <td style="width: 6em;"><input type="text" class="text-center form-control input-sm" /></td>
+                    <td colspan="2"><input type="text" class="form-control input-sm"/></th>
+                </tr-->
+            </thead>
+            <tbody>
+                [[#countries]]
+                <tr>
+                    <td class="text-right">[[dataValues.id]]</td>
+                    <td class="text-center">[[dataValues.alpha2]]</td>
+                    <td class="text-center">[[dataValues.alpha3]]</td>
+                    <td><a href="#" ng-click="update()">[[dataValues.name]]</a></td>
+                    <td>[[dataValues.alt_name]]</td>
+                    <td class="text-right text-nowrap">
+                        <a href="#" ng-click="read()"><span class="fa fa-eye"></span></a>
+                        <a href="#" ng-click="update()"><span class="fa fa-pencil"></span></a>
+                        <a href="#" ng-click="delete()"><span class="fa fa-trash"></span></a>
+                    </td>
+                </tr>
+                [[/countries]]
+            </tbody>
+        </table>
+    </div>
+</div>
