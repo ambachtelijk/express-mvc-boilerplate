@@ -47,7 +47,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="country in countries">
+                <tr ng-if="countries !== null && countries.length !== 0" ng-repeat="country in countries">
                     <td class="text-right">{{country.id}}</td>
                     <td class="text-center">{{country.alpha2}}</td>
                     <td class="text-center">{{country.alpha3}}</td>
@@ -58,6 +58,12 @@
                         <a href="#" ng-click="update(country)"><span class="fa fa-pencil"></span></a>
                         <a href="#" ng-click="delete(country)"><span class="fa fa-trash"></span></a>
                     </td>
+                </tr>
+                <tr ng-if="countries === null">
+                    <td colspan="6" class="text-center"><span class="fa fa-spinner fa-spin"></span> Loading... </td>
+                </tr>
+                <tr ng-if="countries.length === 0">
+                    <td colspan="6" class="text-center"><em>No countries matched your query</em></td>
                 </tr>
             </tbody>
         </table>
