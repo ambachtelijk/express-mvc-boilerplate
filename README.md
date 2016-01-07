@@ -84,6 +84,7 @@ You can perform all (S)CRUD operations on the following URI’s via HTTP. `<root
 * `<column>` can take the values `name`, `id`, `alpha2` or `alpha3`
 * `<query>` is a string with the search value
 * Returns an array of countries that match the criteria
+
 ### Read: `GET <root>/api/country/read/<id>`
 * `<id>` is a string with the ISO 3166-1 ID code
 * Returns an object with the inserted data on success.
