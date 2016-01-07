@@ -81,7 +81,7 @@ module.exports = BaseController.extend({
 You can perform all (S)CRUD operations on the following URI’s via HTTP. `<root>` must be replaced by the base URI of the application (typically the domain name).
 
 ### Search: `GET <root>/api/country/search/<column>/<query>`
-* `<column>` can take the values name, id, alpha2 or alpha3
+* `<column>` can take the values `name`, `id`, `alpha2` or `alpha3`
 * `<query>` is a string with the search value
 * Returns an array of countries that match the criteria
 ### Read: `GET <root>/api/country/read/<id>`
