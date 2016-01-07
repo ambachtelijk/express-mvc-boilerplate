@@ -9,6 +9,7 @@ This app has been built as part of my participation in the course Web Technology
 2. [Installation](#installation)
 3. [Routing](#routing)
 4. [MVC setup](#mvc-setup)
+4. [API](#api)
 
 ## Dependencies
 Make sure the following dependencies have been installed on the target machine and are accessible from the project folder. All the Node.js specific dependencies are defined by `package.json` and don't require separate installation.
@@ -76,3 +77,35 @@ module.exports = BaseController.extend({
 });
 ```
 
+## API
+You can perform all (S)CRUD operations on the following URI’s via HTTP. `<root>` must be replaced by the base URI of the application (typically the domain name).
+
+### Search: `GET <root>/api/country/search/<column>/<query>`
+* `<column>` can take the values name, id, alpha2 or alpha3
+* `<query>` is a string with the search value
+* Returns an array of countries that match the criteria
+### Read: `GET <root>/api/country/read/<id>`
+* `<id>` is a string with the ISO 3166-1 ID code
+* Returns an object with the inserted data on success.
+
+### Create: `PUT/POST <root>/api/country/create`
+* Accepts these PUT/POST parameters. 
+ * `id` (Required, Unique, Integer (4), ISO 3166-1 ID code)
+ * `alpha2` (Required, Unique, CHAR(2), ISO 3166-1 Alpha 2 code)
+ * `alpha3` (Required, Unique, CHAR(3) ISO 3166-1 Alpha 3 code)
+ * `name` (Required, Unique, Varchar(64) UNGEGN Country name)
+ * `alt_name` (Optional, Unique or NULL, Varchar(64) name as most commonly used)
+* Returns an object with the inserted data on success.
+
+### Update: `PUT/PATCH <root>/api/country/update/<id>`
+* `<id>` is a string with the ISO 3166-1 ID code
+* Accepts these PUT/PATCH parameters. 
+ * `alpha2` Required, Unique, CHAR(2), ISO 3166-1 Alpha 2 code)
+ * `alpha3` (Required, Unique, CHAR(3) ISO 3166-1 Alpha 3 code)
+ * `name` (Required, Unique, Varchar(64) UNGEGN Country name)
+ * `alt_name` (Optional, Unique or NULL, Varchar(64) name as most commonly used)
+* Returns an object with the inserted data on success.
+
+### Delete: `DELETE <root>/api/country/delete/<id>`
+ * `<id>` is a string with the ISO 3166-1 ID code
+ * Returns status code 200 on success.
