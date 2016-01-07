@@ -3,8 +3,8 @@ var app = angular.module('app', [ 'ui.bootstrap']);
 
 app.controller('CountryController', function($scope, $http, $uibModal) {
     function modal(country, action) {
+        event.preventDefault();
         $scope.country = country;
-    
         return $uibModal.open({
             templateUrl: '/template/country/' + action + '.html',
             controller: 'CountryModalController',
@@ -18,18 +18,20 @@ app.controller('CountryController', function($scope, $http, $uibModal) {
     $scope.read = function(country) { return modal(country, 'read'); }
     $scope.update = function(country) { return modal(country, 'update'); }
     $scope.delete = function(country) { return modal(country, 'delete'); }
-    $scope.refresh = function() {
+    $scope.refresh = function(reload) {
         $scope.country = null;
-        $scope.countries = null;
-        $http.get('/api/country/search/name/' + $scope.search).success(function(response) {
-            $scope.countries = response.data;
-        });
+        if(reload) {
+            $scope.countries = null;
+            $http.get('/api/country/search/name/' + $scope.search).success(function(response) {
+                $scope.countries = response.data;
+            });
+        }
     }
 });
 
 app.controller('CountryModalController', function($scope, $http, $uibModalInstance) {
     function after() {
-        $scope.refresh();
+        $scope.refresh(true);
         $uibModalInstance.close();
     }
 
@@ -46,7 +48,7 @@ app.controller('CountryModalController', function($scope, $http, $uibModalInstan
     };
     
     $scope.dismiss = function () {
-        $scope.refresh();
+        $scope.refresh(false);
         $uibModalInstance.dismiss();
     };
 });
