@@ -28,9 +28,9 @@
             <div class="pull-right form-inline">
                 <div class="input-group">
                     <span class="input-group-addon" id="basic-addon1"><span class="fa fa-search"></span></span>
-                    <input type="text" class="form-control" placeholder="Search" ng-model="search" ng-change="refresh()" />
+                    <input type="text" class="form-control" placeholder="Search" ng-model="search" ng-change="refresh(true)" />
                     <div class="input-group-btn">
-                        <button class="btn btn-default" ng-click="search = ''; refresh();">Clear</button>
+                        <button class="btn btn-default" ng-click="search = ''; refresh(true);">Clear</button>
                     </div>
                 </div>
             </div>
