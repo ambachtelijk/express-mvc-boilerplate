@@ -17,6 +17,7 @@ module.exports = BaseController.extend({
         this.res.json({
             status: error.status,
             message: error.message,
+            stack: app.get('env') === 'development' ? error.stack.split("\n") : null,
             data: this.res.data
         });
         next();
