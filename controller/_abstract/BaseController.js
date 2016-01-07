@@ -26,9 +26,12 @@ module.exports = Class.extend({
         }.bind(this)).then(function() {
             next();
         }).catch(function(error) {
-            console.log(error);
             // Delegate if an error handler has been defined
-            this.errorHandler ? this.errorHandler(next, error) : next(error);
+            this.errorHandler(next, error);
         }.bind(this));
+    },
+    errorHandler: function(next, error) {
+        console.log(error);
+        next(error);
     }
 });

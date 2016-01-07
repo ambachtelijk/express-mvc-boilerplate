@@ -83,7 +83,7 @@ app.use(function(error, req, res, next) {
         .status(error.status || 500)
         .render('error', {
             message: error.message,
-            error: app.get('env') === 'development' ? error : error
+            error: app.get('env') === 'development' ? error : {}
         });
 });
 module.exports = app;
