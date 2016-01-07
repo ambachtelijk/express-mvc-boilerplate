@@ -19,7 +19,7 @@
     </div>
 </div>
 <div class="container">
-    <div class="panel panel-default table-responsive" ng-controller="CountryController" ng-init="refresh(true)">
+    <div class="panel panel-default" ng-controller="CountryController" ng-init="refresh(true)">
         <div class="panel-body">
             <button class="btn btn-success" ng-click="create()" style="margin-bottom: 1em;">
                 <span class="fa fa-plus"></span>
@@ -38,20 +38,20 @@
         <table class="table table-hover">
             <thead>
                 <tr>
-                    <th class="text-nowrap">ID</th>
+                    <th class="hidden-xs text-nowrap">ID</th>
                     <th class="text-center text-nowrap">Alpha 2</th>
-                    <th class="text-center text-nowrap">Alpha 3</th>
-                    <th class="text-nowrap hidden-xs">Name</th>
-                    <th class="text-nowrap hidden-xs">Alt. Name</th>
+                    <th class="hidden-xs text-center text-nowrap">Alpha 3</th>
+                    <th class="text-nowrap">Name</th>
+                    <th class="hidden-xs text-nowrap">Alt. Name</th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-if="countries !== null && countries.length !== 0" ng-repeat="country in countries">
-                    <td class="text-right">{{country.id}}</td>
+                    <td class="hidden-xs text-right">{{country.id}}</td>
                     <td class="text-center">{{country.alpha2}}</td>
-                    <td class="text-center">{{country.alpha3}}</td>
-                    <td class="hidden-xs"><a href="#" ng-click="update(country)">{{country.name}}</a></td>
+                    <td class="hidden-xs text-center">{{country.alpha3}}</td>
+                    <td class=""><a href="#" ng-click="update(country)">{{country.name}}</a></td>
                     <td class="hidden-xs">{{country.alt_name}}</td>
                     <td class="text-right text-nowrap">
                         <a href="#" ng-click="read(country)"><span class="fa fa-eye"></span></a>
